@@ -1,5 +1,5 @@
 Arduino code for Seeeduino music shield and PIR sensor
-(An attempt to have the seeduino music shield triggered by a PIR sensor)
+(The seeduino music shield is triggered by the PIR sensor)
 
 Karlduino, March 2012
 
