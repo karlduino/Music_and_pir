@@ -12,21 +12,21 @@
  **********************************************************************/
 
 const int pirPin = 19;
+const int turnOffTime = 5000;
 long lastPIR=0, curTime;
-boolean musicOn=false;
+int PIRreading;
+int musicOn=0;
 
-#include <avr/io.h>
-#include "config.h"
-#include "filesys.h"
-#include "player.h"
-#include "vs10xx.h"
-#include "record.h"
+#include <config.h>
+#include <filesys.h>
+#include <player.h>
+#include <vs10xx.h>
+#include <record.h>
 #include <SoftwareSerial.h>
+#include <avr/io.h>
 
 
 SoftwareSerial mySerial(2, 3);//pin2-Rx,pin3-Tx(note: pin3 is actually later used as volume down input)
-void PlayCurrentFile(void);
-
 
 void setup(void)
 {
@@ -35,44 +35,42 @@ void setup(void)
   mySerial.begin(19200);// used for receiving command data from the iPod dock.
   
   InitSPI();
-
   InitIOForVs10xx();
-
   InitIOForKeys();
-  
   InitIOForLEDs();
-
   InitFileSystem();
-
   //VsSineTest();
-
   Mp3Reset();
   
   pinMode(pirPin, INPUT);
-
-  playingState = PS_NEXT_SONG;
-  currentFile = 1;
 }
 
 
 void loop(void)
 { 
-  int reading = digitalRead(pirPin);
-  curTime = millis();
+  Play();
+}
 
-  if(reading==HIGH) {
+
+// need to modify AvailableProcessTime() in player.cpp in music library to call this function
+// checks PIR; if high, play or keep playing music; if low for a period of time, stop playing
+int checkPIR(void)
+{
+  curTime = millis();
+  PIRreading = digitalRead(pirPin);
+
+  if(PIRreading==HIGH) {
     lastPIR = curTime;
-    if(!musicOn) {
+    if(musicOn == 0) {
       Serial.println("Turning on.");
-      musicOn = true;
-      currentFile = 1;
-      OpenFile(currentFile);
-      PlayCurrentFile();
+      musicOn = 1;
     }
   }
-  if(musicOn && curTime > lastPIR + 1000) {
+  else if(musicOn==1 && curTime > lastPIR + turnOffTime) {
     Serial.println("Turning off.");
-    Mp3SoftReset();
-    musicOn = false;
+    musicOn = 0;
   }
+
+  return(musicOn);
 }
+
