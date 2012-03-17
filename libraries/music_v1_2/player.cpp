@@ -1,3 +1,12 @@
+/**********************************************************************
+ * part of music_v1_2 library for seeeduino music shield
+ * from http://seedstudio.com/wiki/Music_Shield
+ * (specifically: http://seeedstudio.com/wiki/File:Music_v1_2.zip)
+ *
+ * slight modification by Karlduino, March 2012, in order to respond
+ * to PIR sensor
+ **********************************************************************/
+
 #include "filesys.h"
 #include "storage.h"
 #include "string.h"
