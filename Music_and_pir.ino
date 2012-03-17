@@ -66,6 +66,7 @@ void loop(void)
       musicOn = true;
       currentFile = 1;
       OpenFile(currentFile);
+      PlayCurrentFile();
     }
   }
   if(musicOn && curTime > lastPIR + 1000) {
