@@ -1,13 +1,13 @@
 /**********************************************************************
  * Music_and_pir
  *
- * An attempt to have the seeduino music shield triggered by a PIR sensor
+ * An attempt to have the seeeduino music shield triggered by a PIR sensor
  *
  * Karlduino, March 2012
  * 
  * music shield software from http://seeedstudio.com/wiki/Music_Shield
  *   in particular the library http://seeedstudio.com/wiki/File:Music_v1_2.zip
- * 
+ *
  * licensed under GPL 3
  **********************************************************************/
 
@@ -24,38 +24,34 @@ int PIRreading;
 #include <SoftwareSerial.h>
 #include <avr/io.h>
 
-
-SoftwareSerial mySerial(2, 3);//pin2-Rx,pin3-Tx(note: pin3 is actually later used as volume down input)
+SoftwareSerial mySerial(2, 3);
 
 void setup(void)
 {
   Serial.begin(9600);
 
-  mySerial.begin(19200);// used for receiving command data from the iPod dock.
+  mySerial.begin(19200); // used for receiving command data from the iPod dock.
   
   InitSPI();
   InitIOForVs10xx();
   InitIOForKeys();
   InitIOForLEDs();
   InitFileSystem();
-  //VsSineTest();
   Mp3Reset();
   
   pinMode(pirPin, INPUT);
-}
 
-
-void loop(void)
-{ 
   Play();
 }
+
+
+void loop(void) { }
 
 
 // needed to modify AvailableProcessTime() in player.cpp in music library to call this function
 // it must be called userInterruptFunction() with no arguments and no return values.
 //
-// this function needs to be defined no matter what, though it could be empty
-
+// this function needs to be defined, but it could be empty
 void userInterruptFunction(void)
 {
   curTime = millis();
