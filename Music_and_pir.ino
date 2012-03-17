@@ -5,7 +5,8 @@
  *
  * Karlduino, March 2012
  * 
- * music shield software from http://seedstudio.com/wiki/Music_Shield
+ * music shield software from http://seeedstudio.com/wiki/Music_Shield
+ *   in particular the library http://seeedstudio.com/wiki/File:Music_v1_2.zip
  * 
  * licensed under GPL 3
  **********************************************************************/
