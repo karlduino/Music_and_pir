@@ -1,0 +1,8 @@
+Arduino code for Seeeduino music shield and PIR sensor
+(An attempt to have the seeduino music shield triggered by a PIR sensor)
+
+Karlduino, March 2012
+
+music shield software from http://seedstudio.com/wiki/Music_Shield
+
+licensed under GPL v3, http://www.gnu.org/copyleft/gpl.html
