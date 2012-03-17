@@ -3,8 +3,9 @@
  * from http://seedstudio.com/wiki/Music_Shield
  * (specifically: http://seeedstudio.com/wiki/File:Music_v1_2.zip)
  *
- * slight modification by Karlduino, March 2012, in order to respond
- * to PIR sensor
+ * slight modification by Karlduino, March 2012, in order to allow 
+ * a user-defined function to be called repeatedly within 
+ * AvailableProcessorTime().
  **********************************************************************/
 
 #include "filesys.h"
@@ -231,7 +232,7 @@ void IPODCommandProcess()
 	}
 }
 
-int checkPIR(void);
+void userInterruptFunction(void);
 
 /** This function is called when the player is playing a song
  and there is free processor time. The basic task of this
@@ -241,7 +242,7 @@ void AvailableProcessorTime()
 	
 	do
 	{
-	  playStop = checkPIR();
+	  userInterruptFunction();
   		CheckKey();
   
  		 IPODCommandProcess();

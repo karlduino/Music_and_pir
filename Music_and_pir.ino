@@ -15,7 +15,6 @@ const int pirPin = 19;
 const int turnOffTime = 5000;
 long lastPIR=0, curTime;
 int PIRreading;
-int musicOn=0;
 
 #include <config.h>
 #include <filesys.h>
@@ -52,25 +51,25 @@ void loop(void)
 }
 
 
-// need to modify AvailableProcessTime() in player.cpp in music library to call this function
-// checks PIR; if high, play or keep playing music; if low for a period of time, stop playing
-int checkPIR(void)
+// needed to modify AvailableProcessTime() in player.cpp in music library to call this function
+// it must be called userInterruptFunction() with no arguments and no return values.
+//
+// this function needs to be defined no matter what, though it could be empty
+
+void userInterruptFunction(void)
 {
   curTime = millis();
   PIRreading = digitalRead(pirPin);
 
   if(PIRreading==HIGH) {
     lastPIR = curTime;
-    if(musicOn == 0) {
+    if(playStop == 0) {
       Serial.println("Turning on.");
-      musicOn = 1;
+      playStop = 1;
     }
   }
-  else if(musicOn==1 && curTime > lastPIR + turnOffTime) {
+  else if(playStop==1 && curTime > lastPIR + turnOffTime) {
     Serial.println("Turning off.");
-    musicOn = 0;
+    playStop = 0;
   }
-
-  return(musicOn);
 }
-
